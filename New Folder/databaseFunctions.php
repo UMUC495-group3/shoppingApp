@@ -56,7 +56,7 @@
 		global $db;
 
 		//select all items from the database to give user options
-		$optionsSQL = "SELECT * FROM cmsc_items";
+		$optionsSQL = "SELECT * FROM cmsc_products";
 		$optionsRESULT = mysqli_query($db, $optionsSQL) or die ("Error retrieving items: " . mysqli_error($db));
 
 		//go through each item from the selection
@@ -77,25 +77,44 @@
 		global $db;
 
 		//select recurring items
-		$recurringSQL = "SELECT * FROM cmsc_items WHERE Recurring='1'";
+		$recurringSQL = "SELECT * FROM cmsc_products WHERE Recurring='1'";
 		$recurringRESULT = mysqli_query($db, $recurringSQL) or die ("Error retrieving recurring items: " . mysqli_error($db));
 
+                $recurringItems = array();
+                
 		//go through each recurring item
 		while ($item = mysqli_fetch_assoc($recurringRESULT)) {
-			$productID = $item['ProductID'];
-			$productname = $item['ProductName'];
-			$productprice = $item['ProductPrice'];
-			$recurring = $item['Recurring'];
-
+                    //Generate temporary product array of recurring items
+                    $tempProductArray = array($item['ProductID'], $item['ProductName'], $item['ProductPrice']);
+                    
+                    //Add current product to existing array of returnable products
+                    array_push($recurringItems, $tempProductArray); 
+                    
+                    //Delete existing temporary array after adding to returable array in preparation for next iteration
+                    unset($tempProductArray);
+                    
+//			$productID = $item['ProductID'];
+//			$productname = $item['ProductName'];
+//			$productprice = $item['ProductPrice'];
+//			$recurring = $item['Recurring'];
+                        
+                        //return array of recurring products
+                        
+                        
+                        
 			//perform desired actions here
 			//...
 			//...
 		}
+                return $recurringItems;
 	}
 
 	function getItemDates($productID) {
 
 		global $db;
+                
+                //Array of product purchase dates
+                $productDatesArray = array();
 
 		//select all dates for a recurring item
 		$datesSQL = "SELECT ListDate FROM cmsc_lists WHERE ProductID='$productID'";
@@ -103,12 +122,15 @@
 
 		//go through each date purchased for this item
 		while ($item = mysqli_fetch_assoc($datesRESULT)) {
-			$date = $item['ListDate'];
+                    //temporary product date array - per date entry
+                    array_push($productDatesArray, $item['ListDate']);
+			//$date = $item['ListDate'];
 
 			//perform desired action here
 			//...
 			//...
 		}
+                return $productDatesArray;
 	}
 
 
