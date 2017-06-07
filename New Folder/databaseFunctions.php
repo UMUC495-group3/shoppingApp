@@ -153,7 +153,7 @@
 
 		//update a recurring item, prepared (SAFER against malicious input)
 		$stmt = $db->prepare("UPDATE cmsc_items SET Recurring=? WHERE ProductID=?"); //here, recurring would be either true or false (1 or 0)
-		$stmt->prepare("ii", $recurring, $productID);
+		$stmt->bind_param("ii", $recurring, $productID);
 		$stmt->execute();
 	}
 
