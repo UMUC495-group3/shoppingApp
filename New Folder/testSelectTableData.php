@@ -30,13 +30,22 @@ echo "<br /><br />";
 if (empty($arrayOFDates)) {
     echo "array of dates is empty";
 } else {
+    //Sort dates in ascending order
+    usort($arrayOFDates, "date_sort");
+    
+    //Print each date out on a separate line
     foreach ($arrayOFDates as $value) {
         echo "$value <br />";
     }
 }
-//foreach ($arrayOFDates as $value) {
-//    echo "$value <br />";
-//}
+echo "<br />";
+for ($i = 1; $i < count($arrayOFDates); $i++) {
+    $tempArrayElement = $i - 1;
+//    $firstDate = create_date($arrayOFDates[$tempArrayElement]);
+//    $secondDate = create_date($arrayOFDates[$i]);
+//    $diff = date_diff($firstDate, $secondDate)->('%a days');
+    echo "$arrayOFDates[$tempArrayElement] - $arrayOFDates[$i] = " . date_diff(date_create($arrayOFDates[$tempArrayElement]), date_create($arrayOFDates[$i]))->format('%a days') . "<br />";
+}
 
 
 //$serverName = "localhost";
