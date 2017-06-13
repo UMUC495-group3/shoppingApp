@@ -27,9 +27,9 @@
 
 
 
-	echo "<h2>Suggested Purchases</h2>";
+	echo "<h2>Popular Items</h2>";
 
-	$occurences = getSuggestedPurchases();
+	$occurences = getPopularItems();
 
 	//show the top X most purchased products (e.g. top 10)
 	for ($x = 0; $x < 10; $x++) {

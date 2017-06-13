@@ -75,7 +75,7 @@
 	
 	//SELECT returns an array of rows from the specified tables (assuming chosen criteria are correct and match existing objects)
 	
-	function getAllItems() {
+	function getAllItems() { //gets all items from cmsc_products
 		
 		global $db;
 		
@@ -94,21 +94,24 @@
 			//...
 			//...
 
-			echo "$productID _ $productname _ $productprice _ $recurring<br>"; 
+			//echo "$productID _ $productname _ $productprice _ $recurring<br>"; 
 		}
 	}
 
-	function getAllListItems() {
+	function getAllListItems() { //gets all items from csmc_lists
 
 		global $db;
 
 		$itemsSQL = "SELECT a.ProductID, a.ListDate, b.ProductName FROM cmsc_lists a, cmsc_products b WHERE a.ProductID=b.ProductID ORDER BY a.ListDate DESC";
 		$itemsRES = mysqli_query($db, $itemsSQL) or die ("Error looking up items: " . mysqli_error($db));
 
-		echo "<br><br>----------------------------------<br><br>";
-
 		while ($item = mysqli_fetch_assoc($itemsRES)) {
-			echo $item['ListDate'] . " - " . $item['ProductID'] . " - " . $item['ProductName'] . "<br>";
+
+			//perform desired actions here 
+			//...
+			//...
+
+			//echo $item['ListDate'] . " - " . $item['ProductID'] . " - " . $item['ProductName'] . "<br>";
 		}
 	}
 	
@@ -195,7 +198,7 @@
 		return $recentTrips;
 	}
 
-	function getSuggestedPurchases() {
+	function getPopularItems() {
 
 		global $db;
 
