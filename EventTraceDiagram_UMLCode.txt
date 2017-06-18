@@ -100,3 +100,53 @@ activate LogOut #blue
 LogOut -[#blue]> LoginPage : user logged out. session closed
 deactivate LogOut
 @enduml
+
+
+Scenario 4 : Error Handling
+URL:
+http://www.plantuml.com/plantuml/uml/fPJFJiCm3CRlUGfBdFS24q93uW0I4jE04-AG9buMaIR5SIPuUxonzO_MmwfUgjRrz-ldBrPNcJLngOFQUOkmJOchzAEKDfm8tZEIQgJ16z_eoF2Sd8zhxN1GVKmrNXGtQ33o6_ac3-glnJdCZ7PToEnqnWo3z-lKbA3fYR7EogJ8b0BS1vV8ywvMLhEkH0KFfnkbUb-2sqNh1fOGVFm27o7glNUQVOfGQL8Z5gxIzQrTfv2yNWfVrpkOO_5nKuM2dtVTwABSu7SHuqAGYz-22TvyeJsSbjzhnbxpKQwwvmvu3avuTE8LEUSCXsWxL9jlsp_k2ObaKmYvK1Gh5Yy9Oovwmox1-jm4_TjI_g5zLhS0OwSdM4U8SKPSH_tGwHav9x0nMrCJEpCk1v-Ot61_1LpBFaRMCr8x4OP-E-oSvCRDJSske_I7dvRR2gELF-GV
+
+@startuml
+hide footbox
+
+actor User
+participant LoginPage
+participant HomePage
+participant RecentTrips
+participant SuggestedPurchases 
+participant PopularItems
+control Algorithm
+database Database
+
+RecentTrips <- HomePage : link in navigation bar
+SuggestedPurchases <- HomePage : link in navigation bar
+PopularItems <- HomePage : link in navigation bar
+LogOut <- HomePage : link in navigation bar
+
+RecentTrips -[#blue]> Algorithm : Request list if clicked
+activate Algorithm #blue
+Algorithm -[#blue]> Database : request users data
+activate Database
+Database -[#blue]> Algorithm : error returned
+deactivate Database
+Algorithm -[#blue]> RecentTrips: display returned error
+deactivate Algorithm
+
+SuggestedPurchases -[#green]> Algorithm : Request list if clicked
+activate Algorithm #green
+Algorithm -[#green]> Database : request users data
+activate Database
+Database -[#green]> Algorithm : error returned
+deactivate Database
+Algorithm -[#green]> SuggestedPurchases: display returned error
+deactivate Algorithm
+
+PopularItems -[#magenta]> Algorithm : Request list if clicked
+activate Algorithm #magenta
+Algorithm -[#magenta]> Database : request users data
+activate Database
+Database -[#magenta]> Algorithm : error returned
+deactivate Database
+Algorithm -[#magenta]> PopularItems: display returned error
+deactivate Algorithm
+@enduml

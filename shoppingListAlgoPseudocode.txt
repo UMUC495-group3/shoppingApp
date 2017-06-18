@@ -1,3 +1,10 @@
+/*
+*	Author: Jesse Cruse
+*	Date: 14 June 2017
+*	Program: Predictive Shopping App
+*	File Desscription: Shopping app algorithm pseudocode
+*/
+
 Class ShoppingList
 
 	//Declare class variables
@@ -7,6 +14,14 @@ Class ShoppingList
 	Constructor Method makeShoppingList()
 		int[] itemIDs = getAllItemIDs() //get item ID array
 		currentShoppingList = array() //Initialize as empty
+	End Method
+	
+	//Method to test for successful database connectivity
+	Method Boolean testDatabase()
+		if (connection successful)
+			return true
+		else
+			return false
 	End Method
 	
 	//Returns the top ten purchased items
