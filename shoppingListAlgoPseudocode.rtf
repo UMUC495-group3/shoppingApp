@@ -1,0 +1,151 @@
+{\rtf1\ansi\deff0\deftab480
+
+{\fonttbl
+{\f000 Courier New;}
+{\f001 Courier New;}
+{\f002 Courier New;}
+{\f003 Courier New;}
+{\f004 Courier New;}
+{\f005 Courier New;}
+{\f006 Courier New;}
+{\f007 Courier New;}
+{\f008 Courier New;}
+}
+
+{\colortbl
+\red000\green000\blue000;
+\red255\green255\blue255;
+\red000\green128\blue000;
+\red255\green255\blue255;
+\red000\green128\blue000;
+\red255\green255\blue255;
+\red255\green000\blue000;
+\red255\green255\blue255;
+\red000\green000\blue128;
+\red255\green255\blue255;
+\red000\green128\blue192;
+\red255\green255\blue255;
+\red000\green000\blue000;
+\red255\green255\blue255;
+\red000\green000\blue000;
+\red255\green255\blue255;
+\red000\green000\blue000;
+\red255\green255\blue255;
+}
+
+\f0\fs20\cb17\cf16 \highlight9\cf8\b\i0 Class\highlight15\cf14\b0\i0  \highlight1\cf0 ShoppingList\highlight15\cf14 \par
+\par
+\tab \highlight5\cf4 //Declare class variables\par
+\highlight15\cf14 \tab \highlight9\cf8\b\i0 Declare\highlight15\cf14\b0\i0  \highlight1\cf0 Private\highlight15\cf14  \highlight11\cf10 Numeric\highlight15\cf14 \tab \highlight1\cf0 currentShoppingList\highlight15\cf14  \highlight5\cf4 //Inital empty array of items to buy\par
+\highlight15\cf14 \tab \par
+\tab \highlight5\cf4 //Constructor\par
+\highlight15\cf14 \tab \highlight9\cf8\b\i0 Constructor\highlight15\cf14\b0\i0  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0  \highlight1\cf0 makeShoppingList\highlight13\cf12\b ()\highlight15\cf14\b0 \par
+\tab \tab \highlight1\cf0 int[]\highlight15\cf14  \highlight1\cf0 itemIDs\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 getAllItemIDs\highlight13\cf12\b ()\highlight15\cf14\b0  \highlight5\cf4 //get item ID array\par
+\highlight15\cf14 \tab \tab \highlight1\cf0 currentShoppingList\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 array\highlight13\cf12\b ()\highlight15\cf14\b0  \highlight5\cf4 //Initialize as empty\par
+\highlight15\cf14 \tab \highlight9\cf8\b\i0 End\highlight15\cf14\b0\i0  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0 \par
+\tab \par
+\tab \highlight5\cf4 //Returns the top ten purchased items\par
+\highlight15\cf14 \tab \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0  \highlight1\cf0 String[]\highlight15\cf14  \highlight1\cf0 itemPopularityDensity\highlight13\cf12\b ()\highlight15\cf14\b0 \par
+\tab \tab \highlight1\cf0 int[]\highlight15\cf14  \highlight1\cf0 itemIDs\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 getAllItemIDs\highlight13\cf12\b ()\highlight15\cf14\b0  \highlight5\cf4 //get item ID array\par
+\highlight15\cf14 \tab \tab \highlight1\cf0 String[]\highlight15\cf14  \highlight1\cf0 occuranceCountArray\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 array\highlight13\cf12\b ()\highlight15\cf14\b0  \highlight5\cf4 //array of items\par
+\highlight15\cf14 \tab \tab \highlight1\cf0 foreach\highlight13\cf12\b (\highlight1\cf0\b0 itemsIDs\highlight15\cf14  \highlight1\cf0 as\highlight15\cf14  \highlight1\cf0 item\highlight13\cf12\b )\highlight15\cf14\b0 \par
+\tab \tab \tab \highlight1\cf0 int\highlight15\cf14  \highlight1\cf0 occuranceCount\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight5\cf4 //MySQL statement to count occurances of itemIDs\par
+\highlight15\cf14 \tab \tab \tab \highlight1\cf0 itemIDs[item]\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 occuranceCount\highlight15\cf14  \highlight5\cf4 //Add occurance count to array\par
+\highlight15\cf14 \tab \tab \highlight1\cf0 sort\highlight13\cf12\b (\highlight1\cf0\b0 occuranceCountArray\highlight13\cf12\b )\highlight15\cf14\b0  \highlight5\cf4 //sort array from highest to lowest\par
+\highlight15\cf14 \tab \tab \highlight1\cf0 int[]\highlight15\cf14  \highlight1\cf0 popularItemArray\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 array\highlight13\cf12\b ()\highlight15\cf14\b0  \highlight5\cf4 //create empty output array\par
+\highlight15\cf14 \tab \tab \highlight1\cf0 return\highlight15\cf14  \highlight1\cf0 array_slice\highlight13\cf12\b (\highlight1\cf0\b0 occuranceCountArray,\highlight15\cf14  \highlight1\cf0 0,\highlight15\cf14  \highlight7\cf6 10\highlight13\cf12\b )\highlight15\cf14\b0  \highlight5\cf4 //return top 10 purchased items\tab \tab \tab \par
+\highlight15\cf14 \tab \highlight9\cf8\b\i0 End\highlight15\cf14\b0\i0  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0 \par
+\tab \par
+\tab \highlight5\cf4 //Method to return a list of recent purchases (within the last two weeks)\par
+\highlight15\cf14 \tab \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0  \highlight1\cf0 String[]\highlight15\cf14  \highlight1\cf0 recentPurchases\highlight13\cf12\b ()\highlight15\cf14\b0 \par
+\tab \tab \highlight1\cf0 int[]\highlight15\cf14  \highlight1\cf0 itemIDs\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 getAllItemIDs\highlight13\cf12\b ()\highlight15\cf14\b0  \highlight5\cf4 //get item ID array\par
+\highlight15\cf14 \tab \tab \highlight1\cf0 String[]\highlight15\cf14  \highlight1\cf0 recentPurchases\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 array\highlight13\cf12\b ()\highlight15\cf14\b0  \highlight5\cf4 //initialize enmpty output array\par
+\highlight15\cf14 \tab \tab \highlight1\cf0 foreach\highlight13\cf12\b (\highlight1\cf0\b0 itemIDs\highlight15\cf14  \highlight1\cf0 as\highlight15\cf14  \highlight1\cf0 item\highlight13\cf12\b )\highlight15\cf14\b0 \par
+\tab \tab \tab \highlight1\cf0 if\highlight15\cf14  \highlight13\cf12\b (\highlight1\cf0\b0 item\highlight15\cf14  \highlight1\cf0 purchased\highlight15\cf14  \highlight1\cf0 within\highlight15\cf14  \highlight1\cf0 last\highlight15\cf14  \highlight7\cf6 14\highlight15\cf14  \highlight1\cf0 days\highlight13\cf12\b )\highlight15\cf14\b0  \highlight5\cf4 //MySQL select statement\par
+\highlight15\cf14 \tab \tab \tab \tab \highlight1\cf0 array_push\highlight13\cf12\b (\highlight1\cf0\b0 recentPurchases,\highlight15\cf14  \highlight1\cf0 item\highlight13\cf12\b )\highlight15\cf14\b0  \highlight5\cf4 // add item to array\par
+\highlight15\cf14 \tab \tab \highlight1\cf0 return\highlight15\cf14  \highlight1\cf0 recentPurchases\highlight15\cf14 \par
+\tab \highlight9\cf8\b\i0 End\highlight15\cf14\b0\i0  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0 \par
+\tab \par
+\tab \highlight5\cf4 //Method to test each item in array for eligibility to be added to shopping list\par
+\highlight15\cf14 \tab \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0  \highlight11\cf10 Numeric\highlight15\cf14  \highlight1\cf0 generateList\highlight13\cf12\b (\highlight1\cf0\b0 itemIDs\highlight13\cf12\b )\highlight15\cf14\b0 \par
+\tab \tab \highlight1\cf0 foreach\highlight13\cf12\b (\highlight1\cf0\b0 itemIDs\highlight15\cf14  \highlight1\cf0 as\highlight15\cf14  \highlight1\cf0 item\highlight13\cf12\b )\highlight15\cf14\b0 \par
+\tab \tab \tab \highlight5\cf4 //Construct array of previous purchase dates for item via MySQL\par
+\highlight15\cf14 \tab \tab \tab \highlight1\cf0 String[]\highlight15\cf14  \highlight1\cf0 itemPurchaseDateArray\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 getSortedPurchaseDateArray\highlight13\cf12\b (\highlight1\cf0\b0 item\highlight13\cf12\b )\highlight15\cf14\b0  \par
+\tab \tab \tab \highlight1\cf0 if\highlight15\cf14  \highlight13\cf12\b (\highlight1\cf0\b0 eligible\highlight13\cf12\b (\highlight1\cf0\b0 itemPurchaseDateArray\highlight13\cf12\b ))\highlight15\cf14\b0 \par
+\tab \tab \tab \tab \highlight5\cf4 //If item is eligible, add to current shopping list\par
+\highlight15\cf14 \tab \tab \tab \tab \highlight1\cf0 array_push\highlight13\cf12\b (\highlight1\cf0\b0 currentShoppingList,\highlight15\cf14  \highlight1\cf0 item\highlight13\cf12\b )\highlight15\cf14\b0 \par
+\tab \tab \highlight1\cf0 return\highlight15\cf14  \highlight1\cf0 currentShoppingList\highlight15\cf14 \par
+\tab \highlight9\cf8\b\i0 End\highlight15\cf14\b0\i0  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0 \par
+\tab \par
+\tab \highlight5\cf4 //Method to determine eligibility to be added to current shopping list\par
+\highlight15\cf14 \tab \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0  \highlight1\cf0 Boolean\highlight15\cf14  \highlight1\cf0 eligible\highlight13\cf12\b (\highlight1\cf0\b0 Numeric[]\highlight15\cf14  \highlight1\cf0 itemPurchaseDateArray\highlight13\cf12\b )\highlight15\cf14\b0  \par
+\tab \tab \highlight1\cf0 if\highlight13\cf12\b (\highlight1\cf0\b0 count\highlight13\cf12\b (\highlight1\cf0\b0 dayIntervals\highlight13\cf12\b )\highlight15\cf14\b0  \highlight1\cf0 <\highlight15\cf14  \highlight7\cf6 5\highlight13\cf12\b )\highlight15\cf14\b0 \par
+\tab \tab \tab \highlight1\cf0 return\highlight15\cf14  \highlight1\cf0 true\highlight15\cf14 \par
+\tab \tab \highlight1\cf0 if\highlight15\cf14  \highlight13\cf12\b (\highlight1\cf0\b0 daySinceLastPurchase\highlight13\cf12\b (\highlight1\cf0\b0 itemPurchaseDateArray\highlight13\cf12\b )\highlight15\cf14\b0  \highlight1\cf0 >=\highlight15\cf14  \par
+\tab \tab \tab \highlight1\cf0 averagePurchaseInterval\highlight13\cf12\b (\highlight1\cf0\b0 itemPurchaseDateArray\highlight13\cf12\b )\highlight15\cf14\b0  \highlight1\cf0 -\highlight15\cf14  \par
+\tab \tab \tab \tab \highlight1\cf0 stats_standard_deviation\highlight13\cf12\b (\highlight1\cf0\b0 getDayIntervalArray\highlight13\cf12\b (\highlight1\cf0\b0 itemPurchaseDateArray\highlight13\cf12\b ))\highlight15\cf14\b0  \highlight1\cf0 -\highlight15\cf14  \highlight7\cf6 5\highlight13\cf12\b )\highlight15\cf14\b0 \par
+\tab \tab \tab \tab \tab \highlight3\cf2 /*\par
+\tab \tab \tab \tab \tab *\tab Add item to recommended purchase list if the number of days that\par
+\tab \tab \tab \tab \tab *\tab the item was last purchased is greater than the average purchase\par
+\tab \tab \tab \tab \tab *\tab interval minus the standard deviation of the purchase interval.\par
+\tab \tab \tab \tab \tab *\tab Subtracting a further five days helps to reduce shopping trip\par
+\tab \tab \tab \tab \tab *\tab intervals by looking further into the future.\par
+\tab \tab \tab \tab \tab */\highlight15\cf14 \tab \par
+\tab \tab \tab \tab \highlight1\cf0 return\highlight15\cf14  \highlight1\cf0 true\highlight15\cf14 \par
+\tab \tab \highlight1\cf0 return\highlight15\cf14  \highlight1\cf0 false\highlight15\cf14 \par
+\tab \highlight9\cf8\b\i0 End\highlight15\cf14\b0\i0  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0 \par
+\tab \par
+\tab \highlight5\cf4 //Helper method to calculate number of days since last purchase\par
+\highlight15\cf14 \tab \highlight1\cf0 Private\highlight15\cf14  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0  \highlight11\cf10 Numeric\highlight15\cf14  \highlight1\cf0 daySinceLastPurchase\highlight13\cf12\b (\highlight1\cf0\b0 String[]\highlight15\cf14  \highlight1\cf0 itemPurchaseDateArray\highlight13\cf12\b )\highlight15\cf14\b0 \par
+\tab \tab \highlight1\cf0 return\highlight15\cf14  \highlight1\cf0 date_diff\highlight13\cf12\b (\highlight1\cf0\b0 today,\highlight15\cf14  \highlight1\cf0 itemPurchaseDateArray[0]\highlight13\cf12\b )\highlight15\cf14\b0 \par
+\tab \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0 \par
+\tab \par
+\tab \highlight5\cf4 //Helper method to get average purchase interval\par
+\highlight15\cf14 \tab \highlight1\cf0 Private\highlight15\cf14  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0  \highlight11\cf10 Numeric\highlight15\cf14  \highlight1\cf0 averagePurchaseInterval\highlight13\cf12\b ()\highlight15\cf14\b0 \par
+\tab \tab \highlight1\cf0 return\highlight15\cf14  \highlight1\cf0 averagePurchaseInterval\highlight13\cf12\b (\highlight1\cf0\b0 dayIntervals\highlight13\cf12\b )\highlight15\cf14\b0  \highlight1\cf0 /\highlight15\cf14  \highlight1\cf0 count\highlight13\cf12\b (\highlight1\cf0\b0 dayIntervals\highlight13\cf12\b )\highlight1\cf0\b0 ;\highlight15\cf14 \par
+\tab \highlight9\cf8\b\i0 End\highlight15\cf14\b0\i0  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0 \par
+\par
+\tab \highlight5\cf4 //Helper method to retrieve a list of dates for current item, sorted from\par
+\highlight15\cf14 \tab \highlight5\cf4 //most to least recently\par
+\highlight15\cf14 \tab \highlight1\cf0 Private\highlight15\cf14  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0  \highlight1\cf0 String[]\highlight15\cf14  \highlight1\cf0 getSortedPurchaseDateArray\highlight13\cf12\b (\highlight1\cf0\b0 itemID\highlight13\cf12\b )\highlight15\cf14\b0 \par
+\tab \tab \highlight5\cf4 //Generate string of item purchase dates from database via MySQL\par
+\highlight15\cf14 \tab \tab \highlight1\cf0 string[]\highlight15\cf14  \highlight1\cf0 getitemPurchaseDateArray\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 sort\highlight13\cf12\b (\highlight1\cf0\b0 getPurchaseDateArray\highlight13\cf12\b (\highlight1\cf0\b0 itemID\highlight13\cf12\b ))\highlight1\cf0\b0 ;\highlight15\cf14 \par
+\tab \highlight9\cf8\b\i0 End\highlight15\cf14\b0\i0  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0 \par
+\tab \tab \par
+\tab \highlight5\cf4 //Helper method to generate an array of differences between purchase dates\par
+\highlight15\cf14 \tab \highlight1\cf0 Private\highlight15\cf14  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0  \highlight11\cf10 Numeric\highlight15\cf14  \highlight1\cf0 getDayIntervalArray\highlight13\cf12\b (\highlight1\cf0\b0 int[]\highlight15\cf14  \highlight1\cf0 dateArray\highlight13\cf12\b )\highlight15\cf14\b0 \tab \tab \par
+\tab \tab \highlight1\cf0 dayIntervalArray\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 array\highlight13\cf12\b ()\highlight1\cf0\b0 ;\highlight15\cf14  \highlight5\cf4 //Number of days between each purchase date\par
+\highlight15\cf14 \tab \par
+\tab \tab \highlight1\cf0 for\highlight13\cf12\b (\highlight1\cf0\b0 i\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 1;\highlight15\cf14  \highlight1\cf0 i\highlight15\cf14  \highlight1\cf0 <\highlight15\cf14  \highlight1\cf0 count\highlight13\cf12\b (\highlight1\cf0\b0 dateArray\highlight13\cf12\b )\highlight1\cf0\b0 ;\highlight15\cf14  \highlight1\cf0 i++\highlight13\cf12\b )\highlight15\cf14\b0  \highlight1\cf0 \{\highlight15\cf14 \par
+\tab \tab \tab \highlight1\cf0 int\highlight15\cf14  \highlight1\cf0 prevElement\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 i\highlight15\cf14  \highlight1\cf0 -\highlight15\cf14  \highlight1\cf0 1;\highlight15\cf14 \par
+\tab \tab \tab \highlight5\cf4 //Calculate day interval between dates\par
+\highlight15\cf14 \tab \tab \tab \highlight1\cf0 int\highlight15\cf14  \highlight1\cf0 dayDifference\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 date_diff\highlight13\cf12\b (\highlight1\cf0\b0 dateArray[prevElement],\highlight15\cf14  \highlight1\cf0 dateArray[i]\highlight13\cf12\b )\highlight1\cf0\b0 ;\highlight15\cf14 \par
+\tab \tab \tab \highlight5\cf4 //Append the number of days between each date to the dayIntervalArray array\par
+\highlight15\cf14 \tab \tab \tab \highlight1\cf0 array_push\highlight13\cf12\b (\highlight1\cf0\b0 dayIntervalArray,\highlight15\cf14  \highlight1\cf0 dayDifference\highlight13\cf12\b )\highlight1\cf0\b0 ;\highlight15\cf14 \par
+\tab \tab \highlight1\cf0 \}\highlight15\cf14 \par
+\tab \tab \highlight1\cf0 return\highlight15\cf14  \highlight1\cf0 dayIntervalArray;\highlight15\cf14 \par
+\tab \highlight9\cf8\b\i0 End\highlight15\cf14\b0\i0  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0 \tab \par
+\tab \par
+\tab \highlight5\cf4 //Helper method to determine the average purchase interval for an item\par
+\highlight15\cf14 \tab \highlight1\cf0 Private\highlight15\cf14  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0  \highlight11\cf10 Numeric\highlight15\cf14  \highlight1\cf0 averagePurchaseInterval\highlight13\cf12\b (\highlight1\cf0\b0 int[]\highlight15\cf14  \highlight1\cf0 dateArray\highlight13\cf12\b )\highlight15\cf14\b0 \par
+\tab \tab \highlight1\cf0 int\highlight15\cf14  \highlight1\cf0 sum\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 0;\highlight15\cf14 \par
+\tab \tab \highlight1\cf0 foreach\highlight13\cf12\b (\highlight1\cf0\b0 dateArray\highlight15\cf14  \highlight1\cf0 as\highlight15\cf14  \highlight1\cf0 value\highlight13\cf12\b )\highlight15\cf14\b0  \highlight1\cf0 \{\highlight15\cf14 \par
+\tab \tab \tab \highlight1\cf0 sum\highlight15\cf14  \highlight1\cf0 +=\highlight15\cf14  \highlight1\cf0 value\highlight15\cf14 \par
+\tab \tab \highlight1\cf0 \}\highlight15\cf14 \par
+\tab \tab \highlight1\cf0 return\highlight15\cf14  \highlight1\cf0 sum\highlight15\cf14 \par
+\tab \highlight9\cf8\b\i0 End\highlight15\cf14\b0\i0  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0 \par
+\tab \par
+\tab \highlight5\cf4 //Helper method to build array of dates for each item in the users database\par
+\highlight15\cf14 \tab \highlight1\cf0 Private\highlight15\cf14  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0  \highlight1\cf0 String[]\highlight15\cf14  \highlight1\cf0 getPurchaseDateArray\highlight13\cf12\b (\highlight1\cf0\b0 int\highlight15\cf14  \highlight1\cf0 itemID\highlight13\cf12\b )\highlight15\cf14\b0 \par
+\tab \tab \highlight1\cf0 outputArray\highlight15\cf14  \highlight1\cf0 =\highlight15\cf14  \highlight1\cf0 array\highlight13\cf12\b ()\highlight1\cf0\b0 ;\highlight15\cf14 \par
+\tab \tab \highlight1\cf0 foreach\highlight13\cf12\b (\highlight1\cf0\b0 line\highlight15\cf14  \highlight1\cf0 in\highlight15\cf14  \highlight1\cf0 database\highlight13\cf12\b )\highlight15\cf14\b0  \highlight1\cf0 \{\highlight15\cf14 \par
+\tab \tab \tab \highlight1\cf0 if\highlight13\cf12\b (\highlight1\cf0\b0 current\highlight15\cf14  \highlight1\cf0 line\highlight15\cf14  \highlight1\cf0 itemID\highlight15\cf14  \highlight1\cf0 ==\highlight15\cf14  \highlight1\cf0 itemID\highlight13\cf12\b )\highlight15\cf14\b0 \par
+\tab \tab \tab \tab \highlight1\cf0 array_push\highlight13\cf12\b (\highlight1\cf0\b0 outputArray,\highlight15\cf14  \highlight1\cf0 purchaseDate\highlight13\cf12\b )\highlight15\cf14\b0 \par
+\tab \tab \highlight1\cf0 return\highlight15\cf14  \highlight1\cf0 outputArray\highlight15\cf14 \par
+\tab \highlight9\cf8\b\i0 End\highlight15\cf14\b0\i0  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0 \par
+\tab \par
+\tab \highlight5\cf4 //Helper Method to get a numeric array of all itemIDs in user database\par
+\highlight15\cf14 \tab \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0  \highlight1\cf0 Numeric[]\highlight15\cf14  \highlight1\cf0 getAllItemIDs\highlight13\cf12\b ()\highlight15\cf14\b0 \par
+\tab \tab \highlight1\cf0 return\highlight15\cf14  \highlight1\cf0 array\highlight13\cf12\b ()\highlight15\cf14\b0  \highlight5\cf4 //MySQL statement getting all item IDs\par
+\highlight15\cf14 \tab \highlight9\cf8\b\i0 End\highlight15\cf14\b0\i0  \highlight9\cf8\b\i0 Method\highlight15\cf14\b0\i0 \par
+\highlight9\cf8\b\i0 End\highlight15\cf14\b0\i0  \highlight1\cf0 Class}
