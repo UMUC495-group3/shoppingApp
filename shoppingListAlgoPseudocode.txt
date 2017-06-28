@@ -85,12 +85,12 @@ Class ShoppingList
 		return averagePurchaseInterval(dayIntervals) / count(dayIntervals);
 	End Method
 
-	//Helper method to retrieve a list of dates for current item, sorted from
+/* 	//Helper method to retrieve a list of dates for current item, sorted from
 	//most to least recently
 	Private Method String[] getSortedPurchaseDateArray(itemID)
 		//Generate string of item purchase dates from database via MySQL
 		string[] getitemPurchaseDateArray = sort(getPurchaseDateArray(itemID));
-	End Method
+	End Method */
 		
 	//Helper method to generate an array of differences between purchase dates
 	Private Method Numeric getDayIntervalArray(int[] dateArray)		

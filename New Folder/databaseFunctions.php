@@ -156,6 +156,23 @@ function getItemDates($productID) {
     return $productDatesArray;
 }
 
+function getAllItemIDs() { //gets all items from cmsc_products
+    global $db;
+    $returnArray = array(); //item of objects to be returned
+    //select all items from the database to give user options
+    $optionsSQL = "SELECT ProductID FROM cmsc_products";
+    $optionsRESULT = mysqli_query($db, $optionsSQL) or die("Error retrieving items: " . mysqli_error($db));
+    //go through each item from the selection
+    while ($item = mysqli_fetch_assoc($optionsRESULT)) {
+        //echo $item['ProductID'] . "\n";
+        array_push($returnArray, $item['ProductID']);
+        //$productname = $item['ProductName'];
+        //$productprice = $item['ProductPrice'];
+        //$recurring = $item['Recurring'];
+    }
+    return $returnArray;
+}
+
 function getRecentTrips() {
 
     global $db;
