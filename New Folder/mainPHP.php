@@ -160,7 +160,15 @@ Class ShoppingList {
     }
 }
 
-//Testing purposes
-$obj = new ShoppingList();
-$obj->generateList();
+//Testing purposes --> for page suggestedPurchases.php
+//$obj = new ShoppingList();
+//$obj->generateList();
+
+//Testing purposes --> for page popularItems.php
+//$obj = new ShoppingList();
+//$obj->itemPopularityDensity();
+
+//Testing purposes --> for page recentTrips.php
+//$obj = new ShoppingList();
+//$obj->recentShoppingTrips();
 ?>
