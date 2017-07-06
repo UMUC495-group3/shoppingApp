@@ -22,17 +22,15 @@ and open the template in the editor.
                 $obj = new ShoppingList();
                 $obj->generateList();
                 
-                include 'footer.html';
+                $today = date("Y-m-d");
                 
                 if(!empty($_POST['purchasedItem'])) {
                     foreach($_POST['purchasedItem'] as $checked) {
-                        echo $checked;
+                        addListItemSafe($checked, $today);
                     }
-                } else {
-                    echo "no items checked";
                 }
                 
-
+                
 
 /*Connect to Database
                 If (db exists) {
@@ -56,7 +54,9 @@ and open the template in the editor.
                 } else {
                         Error Cannot connect to db;
                 }*/
+                include 'footer.html';
             ?>
         </div>
+        
     </body>
 </html>
