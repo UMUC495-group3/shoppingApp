@@ -42,9 +42,9 @@ Class ShoppingList {
             array_push($occuranceCountArray, $popularItems[$i][1]);
         }
         //Create output table structure
-        echo "<table style=width:25%>"
-        . "<tr>"
-        . "<th>Popularity Rank</th>"
+        echo "<br /><br /><br />";
+        echo "<table style=width:25% border='1'>"
+        . "<tr><th>Popularity Rank</th>"
         . "<th>Item</th>"
         . "</tr>";
         //Loop and print out table rows for each of the top ten items
@@ -54,7 +54,7 @@ Class ShoppingList {
         echo "</table>";
     }
 
-    //Prints a list of purchases from the lastfive shopping trips
+    //Prints a list of purchases from the last five shopping trips
     public function recentShoppingTrips() {
         if (!$this->connected()) {
             exit("Database Connection Error.");            
@@ -76,14 +76,18 @@ Class ShoppingList {
         if (!$this->connected()) {
             exit("Database Connection Error.");
         } //Kill method if no access to database
-        echo "<p><h2>Looks like you're due for these items:</h2></p><br /><p>";
+        echo "<p><h2>Looks like you're due for these items:</h2></p>";
+        echo "<form action='suggestedPurchases.php' method='POST'>";
+        echo "<table style=width:50% border='1'><tr><th>Purchased?</th><th>Item ID</th><th>Item Description</th></tr>";
         foreach ($this->itemIDs as $itemID) {
             $itemPurchaseDateArray = getItemDates($itemID);            
             if ($this->eligible($itemPurchaseDateArray)) {
-                echo $itemID . "     " . $this->extractItemName($itemID) . "<br>";
-            }
-            echo "</p>";
+                echo "<tr><td align='center'><input type='checkbox' name='purchasedItem[]' value=$itemID></td><td>" . $itemID . "</td><td>" . $this->extractItemName($itemID) . "</td></tr>";
+            }            
         }
+        echo "</table>";
+        echo "<input type='submit' value='Record Purchases'>";
+        echo "</form>";
     }
 
     /*Method to determine eligibility to be added to current shopping list

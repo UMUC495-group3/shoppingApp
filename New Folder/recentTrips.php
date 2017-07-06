@@ -18,6 +18,12 @@ if (!isset($_SESSION['username'])) {
         <div class="page">
             <?php
                 include 'header.html';
+                include ("mainPHP.php");
+                
+                //Instantiate algorithm object and call recent purchases method
+                $obj = new ShoppingList();
+                $obj->recentShoppingTrips();
+                
                 include 'footer.html';
                 
                 /*Connect to Database
