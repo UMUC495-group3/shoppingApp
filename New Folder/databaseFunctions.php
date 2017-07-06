@@ -3,10 +3,8 @@
 /*
   databaseFunctions.php
   Tyler Roland
-  6/2/17
+  7/2/17
   Possible functions to use when accessing the database
-
-  Edited: 6/13/17
  */
 
 //necessary if using SESSION variables to store user information (e.g. login)
@@ -24,67 +22,78 @@ $DB_DATABASE = "umuccmsc_groupdb";
 //connect to database with credentials
 $db = mysqli_connect($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_DATABASE) or die("Error connecting to database: " . mysqli_error());
 
+//global UserID variable
+if (isset($_SESSION['UserID'])) 
+    $userID = $_SESSION['UserID'];
 
-/* --- List of database tables / columns TO BE DELETED UPON RELEASE (ONLY FOR DEVELOPMENT) --- */
 
-//cmsc_users
-//UserID - Int (Primary, AI)
-//Username - Varchar (50) (Unique)
-//Email - Varchar (100) (Unique)
-//Password - Varchar (50)
-//cmsc_products
-//ProductID - Int (Primary, AI)
-//ProductName - Varchar (60)
-//ProductPrice - Decimal
-//Recurring - TinyInt (Boolean)
-//cmsc_lists
-//ListID - Int (Primary, AI)
-//ProductID - Int (Foreign)
-//ListDate - Date (in yyyy-mm-dd format!)
-//CRUD = Create, Read, Update, Delete
 
 /* -- Create / Insert -- */
 
-function addItem($productname, $productprice, $recurring) {
+function addItem($productname, $productprice) {
 
     global $db;
+    global $userID;
 
     //inserting item into database
-    $insertSQL = "INSERT INTO cmsc_items (ProductName, ProductPrice, Recurring) VALUES ('$productname', '$productprice', '$recurring')";
-    $insertRESULT = mysqli_query($db, $insertSQL) or die("Error inserting item: " . mysqli_error($db));
+    $insertSQL = "INSERT INTO cmsc_items (ProductName, ProductPrice, UserID) VALUES ('$productname', '$productprice', '$userID')";
+    $insertRESULT = mysqli_query($db, $insertSQL) or die("Error inserting item into products table: " . mysqli_error($db));
 }
 
-function addItemSafe($productname, $productprice, $recurring) {
+function addItemSafe($productname, $productprice) {
 
     global $db;
+    global $userID;
 
     //insert item into database, prepared (SAFER against malicious input)
-    $stmt = $db->prepare("INSERT INTO cmsc_items (ProductName, ProductPrice, Recurring) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $productname, $productprice, $recurring);
+    $stmt = $db->prepare("INSERT INTO cmsc_items (ProductName, ProductPrice, UserID) VALUES (?, ?, ?)");
+    $stmt->bind_param("ssi", $productname, $productprice, $userID);
     $stmt->execute();
     $stmt->close();
+}
+
+function addListItem($productID, $listDate) {
+
+	global $db;
+	global $userID;
+
+	//Insert item to database
+	$insertSQL = "INSERT INTO cmsc_lists (ProductID, UserID, ListDate) VALUES ('$productID', '$userID', '$listDate')";
+	$insertRESULT = mysqli_query($db, $insertSQL) or die ("Error inserting item into lists table: " . mysqli_error($db));
+}
+
+function addListItemSafe($productID, $listDate) {
+
+	global $db;
+	global $userID;
+
+	//insert item into database, prepared (SAFER against malicious input)
+	$stmt = $db->prepare("INSERT INTO cmsc_lists (ProductID, UserID, ListDate) VALUES (?, ?, ?)");
+	$stmt->bind_param("iis", $productID, $userID, $listDate);
+	$stmt->execute();
+	$stmt->close();
 }
 
 /* -- ---------------------------------------------- -- */
 
 /* -- Read / Select -- */
 
-//SELECT returns an array of rows from the specified tables (assuming chosen criteria are correct and match existing objects)
-
 function getAllItems() { //gets all items from cmsc_products
+    
     global $db;
+    global $userID;
+    
     $returnArray = array(); //item of objects to be returned
+    
     //select all items from the database to give user options
     $optionsSQL = "SELECT ProductID FROM cmsc_products";
     $optionsRESULT = mysqli_query($db, $optionsSQL) or die("Error retrieving items: " . mysqli_error($db));
+    
     //go through each item from the selection
     while ($item = mysqli_fetch_assoc($optionsRESULT)) {
         //echo $item['ProductID'] . "\n";
         $tempArray = array();
         array_push($tempArray, $item['ProductID']);
-        $productname = $item['ProductName'];
-        $productprice = $item['ProductPrice'];
-        //$recurring = $item['Recurring'];
     }
     return $returnArray;
 }
@@ -92,47 +101,19 @@ function getAllItems() { //gets all items from cmsc_products
 function getAllListItems() { //gets all items from csmc_lists
 
     global $db;
+    global $userID;
+
+    $returnArray = array();
 
     $itemsSQL = "SELECT a.ProductID, a.ListDate, b.ProductName FROM cmsc_lists a, cmsc_products b WHERE a.ProductID=b.ProductID ORDER BY a.ListDate DESC";
     $itemsRES = mysqli_query($db, $itemsSQL) or die("Error looking up items: " . mysqli_error($db));
-    $returnArray = array();
+    
     while ($item = mysqli_fetch_assoc($itemsRES)) {
         $tempArray = array();
         array_push($tempArray, $item['ProductID'], $item['ProductName'], $item['ListDate']);
         array_push($returnArray, $tempArray);
-        //perform desired actions here 
-        //...
-        //...
-        //echo $item['ListDate'] . " - " . $item['ProductID'] . " - " . $item['ProductName'] . "<br>";
     }
     return $returnArray;
-}
-
-function getRecurringItems() {
-
-    global $db;
-
-    //select recurring items
-    $recurringSQL = "SELECT * FROM cmsc_products WHERE Recurring='1'";
-    $recurringRESULT = mysqli_query($db, $recurringSQL) or die("Error retrieving recurring items: " . mysqli_error($db));
-
-    $recurringItems = array();
-
-    //go through each recurring item
-    while ($item = mysqli_fetch_assoc($recurringRESULT)) {
-
-        //Generate temporary product array of recurring items
-        $tempProductArray = array($item['ProductID'], $item['ProductName'], $item['ProductPrice']);
-
-        //Add current product to existing array of returnable products
-        array_push($recurringItems, $tempProductArray);
-
-        //Delete existing temporary array after adding to returable array in preparation for next iteration
-        unset($tempProductArray);
-    }
-
-    //return array of recurring products
-    return $recurringItems;
 }
 
 function getItemDates($productID) {
@@ -157,18 +138,20 @@ function getItemDates($productID) {
 }
 
 function getAllItemIDs() { //gets all items from cmsc_products
+    
     global $db;
+    global $userID;
+    
     $returnArray = array(); //item of objects to be returned
+    
     //select all items from the database to give user options
-    $optionsSQL = "SELECT ProductID FROM cmsc_products";
+    $optionsSQL = "SELECT ProductID FROM cmsc_products WHERE UserID='$userID'";
     $optionsRESULT = mysqli_query($db, $optionsSQL) or die("Error retrieving items: " . mysqli_error($db));
+    
     //go through each item from the selection
     while ($item = mysqli_fetch_assoc($optionsRESULT)) {
         //echo $item['ProductID'] . "\n";
         array_push($returnArray, $item['ProductID']);
-        //$productname = $item['ProductName'];
-        //$productprice = $item['ProductPrice'];
-        //$recurring = $item['Recurring'];
     }
     return $returnArray;
 }
@@ -176,9 +159,10 @@ function getAllItemIDs() { //gets all items from cmsc_products
 function getRecentTrips() {
 
     global $db;
+    global $userID;
 
     //get up to last 5 shopping trips
-    $datesSQL = "SELECT DISTINCT(ListDate) from cmsc_lists ORDER BY ListDate DESC LIMIT 5";
+    $datesSQL = "SELECT DISTINCT(ListDate) from cmsc_lists WHERE UserID='$userID' ORDER BY ListDate DESC LIMIT 5";
     $datesRES = mysqli_query($db, $datesSQL) or die("Error getting distinct dates: " . mysqli_error($db));
 
     $recentTrips = array();
@@ -211,9 +195,10 @@ function getRecentTrips() {
 function getPopularItems() {
 
     global $db;
+    global $userID;
 
     //get each ProductID from the lists table
-    $itemSQL = "SELECT DISTINCT(ProductID) FROM cmsc_lists";
+    $itemSQL = "SELECT DISTINCT(ProductID) FROM cmsc_lists WHERE UserID='$userID'";
     $itemRES = mysqli_query($db, $itemSQL) or die("Error getting distinct items: " . mysqli_error($db));
 
     $itemOccurences = array();
@@ -244,26 +229,6 @@ function getPopularItems() {
 /* -- ---------------------------------------------- -- */
 
 /* -- Update -- */
-
-function updateRecurrence($recurring, $productID) {
-
-    global $db;
-
-    //update a recurring item
-    $updateSQL = "UPDATE cmsc_items SET Recurring='$recurring' WHERE ProductID='$productID'"; //here, recurring would be either true or false (1 or 0)
-    $updateRESULT = mysqli_query($db, $updateSQL) or die("Error updating product recurrence: " . mysqli_error($db));
-}
-
-function updateRecurrenceSafe($recurring, $productID) {
-
-    global $db;
-
-    //update a recurring item, prepared (SAFER against malicious input)
-    $stmt = $db->prepare("UPDATE cmsc_items SET Recurring=? WHERE ProductID=?"); //here, recurring would be either true or false (1 or 0)
-    $stmt->bind_param("ii", $recurring, $productID);
-    $stmt->execute();
-    $stmt->close();
-}
 
 function updatePrice($price, $productID) {
 
@@ -318,21 +283,24 @@ function tryLogIn($username, $password) {
     global $db;
 
     //select all instances of this username/password combination
-    $stmt = $db->prepare("SELECT * FROM cmsc_users WHERE Username=? AND Password=?");
+    $stmt = $db->prepare("SELECT UserID FROM cmsc_users WHERE Username=? AND Password=?");
     $stmt->bind_param("ss", $username, $password);
     if ($stmt->execute()) {
 
         $stmt->store_result();
+        $stmt->bind_result($userID);
 
-        if ($stmt->num_rows() == 1) { //only 1 result was found, successfully logged in
-            //A check should be added at the beginning every HTML/PHP user page for the app. 
-            //If a user is not logged in, redirect them to the login page. 
-            //e.g. if (!isset($_SESSION['login']) || !isset($_SESSION['username']) || $_SESSION['login'] != 1 || $_SESSION['username'] == '')
+        //only 1 result was found, successfully logged in
+        if ($stmt->num_rows() == 1) { 
+            
+            $stmt->fetch();
+            
             $_SESSION['login'] = 1;
             $_SESSION['username'] = $username;
+            $_SESSION['UserID'] = $userID;
 
-            //header("Location: home.php"); //This may need to change depending on how front-end is developed.
-            header("Location: tylerLoginTest.php");
+            header("Location: index.php");
+
         } else { //invalid credentials
             echo "Incorrect username or password.";
         }
@@ -340,12 +308,42 @@ function tryLogIn($username, $password) {
     $stmt->close();
 }
 
-function logout() {
-    if (isset($_SESSION['login']) && isset($_SESSION['username'])) {
-        unset($_SESSION['login']);
-        unset($_SESSION['username']);
-        header("Location: login.php");
+
+function trySignUp($username, $password) {
+    
+    global $db;
+
+    $stmt = $db->prepare("SELECT UserID FROM cmsc_users WHERE Username=?");
+    $stmt->bind_param("s", $username);
+    if ($stmt->execute()) {
+
+        $stmt->store_result();
+
+        //no users found with this username. Create new user
+        if ($stmt->num_rows() == 0) {
+            $insertStmt = $db->prepare("INSERT INTO cmsc_users (Username, Password) VALUES (?,?)");
+            $insertStmt->bind_param("ss", $username, $password);
+            if ($insertStmt->execute()) {
+
+                //log in the new user.
+                tryLogIn($username, $password);
+            }
+        }
+
+        else {
+            echo "This username has already been taken. Please try another username.";
+        }
+
     }
+    $stmt->close();
+}
+
+function logout() {
+    if (isset($_SESSION['login']))		unset($_SESSION['login']);
+    if (isset($_SESSION['username']))	unset($_SESSION['username']);
+    if (isset($_SESSION['UserID']))		unset($_SESSION['UserID']);
+
+    header("Location: login.php");
 }
 
 ?>
