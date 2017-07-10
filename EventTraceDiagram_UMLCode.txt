@@ -1,0 +1,152 @@
+UML Code for Event-Trace Diagram
+
+Scenario 1 : Start Up
+URL:
+http://www.plantuml.com/plantuml/uml/ZP51QWCn34NtFeKka0kKKbBeeeL2GzFkij7OYaV4OmsIdFRuzK2WIUbYDaPO_-4dQskEwcqgOUH4S1JnGRv3mEYYy6caOJbWym2lahdkC1FSWRLXOeUebAWwOx7ms_wJvIDmFMFX13tEIj4FTS1u0XSeI_2MVPQ9BYWLMvpq2pM1r4Er5YEP7Lkva7EtvyWpLeTtYbtcGtcsc_jzovdCAUsQnX6D36xwEvbRGNrncYn4gQvIuB5aKVPn2WaTXqx1qwK8uUebkDzS6nUkfpukL3npHcUfCA26VnHMSTTgwuZ-bM_DrsMtL5DV_Gy0
+
+
+@startuml
+hide footbox
+
+actor User
+User -> LoginPage : submit credentials
+LoginPage -> LoginPage : if invalid redirect\nback to login
+LoginPage -> HomePage : else forward on\nsuccessful login
+participant RecentTrips
+participant SuggestedPurchases 
+participant PopularItems
+control Algorithm
+database Database
+
+RecentTrips <- HomePage : link in navigation bar
+SuggestedPurchases <- HomePage : link in navigation bar
+PopularItems <- HomePage : link in navigation bar
+LogOut <- HomePage : link in navigation bar
+@enduml
+
+
+Scenario 2 : Normal Operation
+URL: http://www.plantuml.com/plantuml/uml/fPJ1Rjim38RlUWe2E-S5Yg7eW1qwOC22RZkjEz0Iun2H9O-YilNjIxTERQy-fCr5i2t-dtx-8dnJ54Lh5zsU0y4kPstoF-VGQnRuMKZSiC3c6hxcbjCMMu8hABNfMC4B1KhA68kRjl-hvHrmEcBa05REGbxlKuF-09eX3eLBxMtkQ9HIB8Cd-OiI8AVxLAhtLCgknb7Pctlst6DIk2DlPdu8zsNn_NjjMofAOLl5xx5GWSN-DlSrednHwehpEQda29zYcuLrtxc0YesfuFFuuDpi9FYucJkEd0xMBYGySelAEK63ubOidAMRMpjFOL5-gtfUxQAFpQyFJQpq-tfgtPHtzAUQSIFOOZVf8_i3XM4--8XAi-8dkPlU9-0fEEF9oAisL0M6Q2VKIxulzUkUXBHAEg4eF6C2lGQjcPdrV0M1In_n0LfA93YmXaRdh6aErYxHiAqGfGjIUz8ldPwGb-IsPkkTmPrGh_j_Ou2BQJPmPzEP52y8RoGi_KxOIm9SD_VE22VOF8EtnNT3ATYF-X40
+
+@startuml
+hide footbox
+
+actor User
+User -> LoginPage : submit credentials
+LoginPage -> LoginPage : if invalid redirect\nback to login
+LoginPage -> HomePage : else forward on\nsuccessful login
+participant RecentTrips
+participant SuggestedPurchases 
+participant PopularItems
+control Algorithm
+database Database
+
+RecentTrips <- HomePage : link in navigation bar
+SuggestedPurchases <- HomePage : link in navigation bar
+PopularItems <- HomePage : link in navigation bar
+LogOut <- HomePage : link in navigation bar
+
+RecentTrips -[#blue]> Algorithm : Request list if clicked
+activate Algorithm #blue
+Algorithm -[#blue]> Database : request users data
+activate Database
+Database -[#blue]> Algorithm : return requested data
+deactivate Database
+Algorithm -[#blue]> RecentTrips: display generated list
+deactivate Algorithm
+
+SuggestedPurchases -[#green]> Algorithm : Request list if clicked
+activate Algorithm #green
+Algorithm -[#green]> Database : request users data
+activate Database
+Database -[#green]> Algorithm : return requested data
+deactivate Database
+Algorithm -[#green]> SuggestedPurchases: display generated list
+deactivate Algorithm
+
+PopularItems -[#magenta]> Algorithm : Request list if clicked
+activate Algorithm #magenta
+Algorithm -[#magenta]> Database : request users data
+activate Database
+Database -[#magenta]> Algorithm : return requested data
+deactivate Database
+Algorithm -[#magenta]> PopularItems: display generated list
+deactivate Algorithm
+@enduml
+
+
+Scenario 3 : Shut Down
+URL:
+http://www.plantuml.com/plantuml/uml/ZP5DImGn38Rl_HK1p-iFa4LMyA0WEFXn4W-PDdQ2dMPeqiMVRqTcTKSzxAsyxVFq9TcfOR4w9ZTm87WJiLu-d4DlKk1PgRYfFM3F4sQ3EucSEuoqIczaf3_X0tdAzbHuqbN-M6CaDGfTBNv09ONLVITJJLXkZKPrNh8LIN2LeXIsONG13Vj6mVLoSExe9zXkljl01IJExy0PCkuveh5awB6uVogSn1rNEureyxgl1jkNipvLUbqXjGqNb19vKqWIGQhDS-Sz6i52Vd47pMRHNFxiuU1fVAGmAywRKtKku9Ce1HVebzJjA8Usyay0
+
+
+@startuml
+hide footbox
+
+actor User
+participant LoginPage
+participant HomePage
+participant RecentTrips
+participant SuggestedPurchases 
+participant PopularItems
+control Algorithm
+database Database
+
+RecentTrips <- HomePage : link in navigation bar
+SuggestedPurchases <- HomePage : link in navigation bar
+PopularItems <- HomePage : link in navigation bar
+LogOut <[#blue]- HomePage : user selects log out
+activate LogOut #blue
+LogOut -[#blue]> LoginPage : user logged out. session closed
+deactivate LogOut
+@enduml
+
+
+Scenario 4 : Error Handling
+URL:
+http://www.plantuml.com/plantuml/uml/fPJFJiCm3CRlUGfBdFS24q93uW0I4jE04-AG9buMaIR5SIPuUxonzO_MmwfUgjRrz-ldBrPNcJLngOFQUOkmJOchzAEKDfm8tZEIQgJ16z_eoF2Sd8zhxN1GVKmrNXGtQ33o6_ac3-glnJdCZ7PToEnqnWo3z-lKbA3fYR7EogJ8b0BS1vV8ywvMLhEkH0KFfnkbUb-2sqNh1fOGVFm27o7glNUQVOfGQL8Z5gxIzQrTfv2yNWfVrpkOO_5nKuM2dtVTwABSu7SHuqAGYz-22TvyeJsSbjzhnbxpKQwwvmvu3avuTE8LEUSCXsWxL9jlsp_k2ObaKmYvK1Gh5Yy9Oovwmox1-jm4_TjI_g5zLhS0OwSdM4U8SKPSH_tGwHav9x0nMrCJEpCk1v-Ot61_1LpBFaRMCr8x4OP-E-oSvCRDJSske_I7dvRR2gELF-GV
+
+@startuml
+hide footbox
+
+actor User
+participant LoginPage
+participant HomePage
+participant RecentTrips
+participant SuggestedPurchases 
+participant PopularItems
+control Algorithm
+database Database
+
+RecentTrips <- HomePage : link in navigation bar
+SuggestedPurchases <- HomePage : link in navigation bar
+PopularItems <- HomePage : link in navigation bar
+LogOut <- HomePage : link in navigation bar
+
+RecentTrips -[#blue]> Algorithm : Request list if clicked
+activate Algorithm #blue
+Algorithm -[#blue]> Database : request users data
+activate Database
+Database -[#blue]> Algorithm : error returned
+deactivate Database
+Algorithm -[#blue]> RecentTrips: display returned error
+deactivate Algorithm
+
+SuggestedPurchases -[#green]> Algorithm : Request list if clicked
+activate Algorithm #green
+Algorithm -[#green]> Database : request users data
+activate Database
+Database -[#green]> Algorithm : error returned
+deactivate Database
+Algorithm -[#green]> SuggestedPurchases: display returned error
+deactivate Algorithm
+
+PopularItems -[#magenta]> Algorithm : Request list if clicked
+activate Algorithm #magenta
+Algorithm -[#magenta]> Database : request users data
+activate Database
+Database -[#magenta]> Algorithm : error returned
+deactivate Database
+Algorithm -[#magenta]> PopularItems: display returned error
+deactivate Algorithm
+@enduml

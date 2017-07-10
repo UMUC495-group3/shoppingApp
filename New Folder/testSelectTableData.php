@@ -39,11 +39,13 @@ if (empty($arrayOFDates)) {
     }
 }
 echo "<br />";
+$totalDaysCount = 0;
 for ($i = 1; $i < count($arrayOFDates); $i++) {
     $tempArrayElement = $i - 1;
 //    $firstDate = create_date($arrayOFDates[$tempArrayElement]);
 //    $secondDate = create_date($arrayOFDates[$i]);
 //    $diff = date_diff($firstDate, $secondDate)->('%a days');
+    $totalDaysCount += date_diff(date_create($arrayOFDates[$tempArrayElement]), date_create($arrayOFDates[$i]));
     echo "$arrayOFDates[$tempArrayElement] - $arrayOFDates[$i] = " . date_diff(date_create($arrayOFDates[$tempArrayElement]), date_create($arrayOFDates[$i]))->format('%a days') . "<br />";
 }
 
