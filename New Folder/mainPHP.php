@@ -6,6 +6,26 @@
  * @date:       25 June 2017
  * @purpose:    ShoppingApp algorithm class. Class methods collect MySQL data
  *              and generates/ouputs calculated content for the front-end
+ 
+ 
+********************************* Revision History *******************************
+----------------------------------------------------------------------------------
+ REVISION #	|	Date 	|	  Editor	|		DESCRIPTION OF CHANGES
+----------------------------------------------------------------------------------
+	1.00	| 6/27/2017 |     Jesse		| --> Original source code
+----------------------------------------------------------------------------------
+	1.01	| 7/3/2017	|     Jesse		| --> Improved html output formatting
+----------------------------------------------------------------------------------
+	1.02	| 7/5/2017	|	  Jesse		| --> Added html checkboxes & form code
+										|	  form submitting purchases in
+										|	  generateList method
+----------------------------------------------------------------------------------
+	1.03	| 7/11/2017 |	  Jesse		| --> Added missing revision table
+										| --> Added missing titles for recentTrips
+											  and popularItems pages.
+										| --> Fixed table alignment html in
+											  suggestedPurchases method
+---------------------------------------------------------------------------------- 
  */
 
 include("dbConnect.php");
@@ -37,12 +57,13 @@ Class ShoppingList {
             exit("Database Connection Error.");
         } //Kill method if no access to database
         $occuranceCountArray = array(); //declare empty array for top 10 items list
-        $popularItems = getPopularItems(); //retrieve master popular items list        
+        $popularItems = getPopularItems(); //retrieve master popular items list  
+		echo "<div><h2>Here are your top 10 most purchases items:</h2></div>";
         for ($i = 0; $i < 10; $i++) { //loop through master items array selecting only the top 10
             array_push($occuranceCountArray, $popularItems[$i][1]);
         }
         //Create output table structure
-        echo "<br /><br /><br />";
+        echo "<br />";
         echo "<table style=width:25% border='1'>"
         . "<tr><th>Popularity Rank</th>"
         . "<th>Item</th>"
@@ -60,9 +81,10 @@ Class ShoppingList {
             exit("Database Connection Error.");            
         } //Kill method if no access to database
         $recentPurchases = getRecentTrips(); //retrieve a list of the recent purchases
+		echo "<p><h2>Purchase breakdown for the last five shopping trips:</h2></p>";
         foreach ($recentPurchases as $key => $value) {
             $date = new DateTime($value[1]);
-            echo "<p><h3>" . $date->format('l F j, Y') . "</h3></p>";
+            echo "<div><h3>" . $date->format('l F j, Y') . "</h3></div>";
             for ($i = 0; $i < count($value[0]); $i++) {
                 echo "<p>" . $value[0][$i][1] . "</p>";
             }
@@ -76,17 +98,17 @@ Class ShoppingList {
         if (!$this->connected()) {
             exit("Database Connection Error.");
         } //Kill method if no access to database
-        echo "<p><h2>Looks like you're due for these items:</h2></p>";
-        echo "<form action='suggestedPurchases.php' method='POST'>";
-        echo "<table style=width:50% border='1'><tr><th>Purchased?</th><th>Item ID</th><th>Item Description</th></tr>";
+        echo "<p><h2>Looks like you're due for these items:</h2></p>
+			<form action='suggestedPurchases.php' method='POST'>";
+        echo "<table style=width:50% border='1' align='center'><tr><th>Purchased?</th><th>Item ID</th><th>Item Description</th></tr>";
         foreach ($this->itemIDs as $itemID) {
             $itemPurchaseDateArray = getItemDates($itemID);            
             if ($this->eligible($itemPurchaseDateArray)) {
                 echo "<tr><td align='center'><input type='checkbox' name='purchasedItem[]' value=$itemID></td><td>" . $itemID . "</td><td>" . $this->extractItemName($itemID) . "</td></tr>";
             }            
         }
-        echo "</table>";
-        echo "<input type='submit' value='Record Purchases'>";
+        echo "</table><br /><div align='center'>";
+        echo "<input type='submit' value='Record Purchases'></div>";
         echo "</form>";
     }
 
@@ -129,6 +151,7 @@ Class ShoppingList {
         return array_sum($dayIntervalArray) / count($dayIntervalArray);
     }
 
+	//Helper method to retreve item nomenclature from master product list
     private function extractItemName($itemID) {
         foreach($this->masterItemList as $key => $nestedArray) {
             if($itemID == $nestedArray[0]) {
