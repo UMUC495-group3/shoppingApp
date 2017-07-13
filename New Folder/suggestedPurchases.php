@@ -22,11 +22,12 @@ and open the template in the editor.
                 $obj = new ShoppingList();
                 $obj->generateList();
                 
-                $today = date("Y-m-d");
+                $today = date("Y-m-d"); //create date object with todays date
                 
-                if(!empty($_POST['purchasedItem'])) {
+				//Add details of checked items to database, including datestamp
+                if(!empty($_POST['purchasedItem'])) { //interate through array of checked items
                     foreach($_POST['purchasedItem'] as $checked) {
-                        addListItemSafe($checked, $today);
+                        addListItemSafe($checked, $today); //post details to database
                     }
                 }
                 

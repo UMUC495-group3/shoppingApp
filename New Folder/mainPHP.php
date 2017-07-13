@@ -6,6 +6,28 @@
  * @date:       25 June 2017
  * @purpose:    ShoppingApp algorithm class. Class methods collect MySQL data
  *              and generates/ouputs calculated content for the front-end
+
+
+*********************************** Revision History *******************************
+
+      1.00	|    6/25/2017  |   --> Original source code
+------------------------------------------------------------------------------------
+      1.01	|    7/3/2017	|   --> Improved html output formatting
+------------------------------------------------------------------------------------
+      1.02	|    7/5/2017	|   --> Added html checkboxes & form code form
+                                |       submitting purchases in generateList method
+------------------------------------------------------------------------------------
+      1.03	|    7/11/2017  |   --> Added missing revision table
+                |               |   --> Added missing titles for recentTrips and
+                |               |       popularItems pages.
+                |               |   --> Fixed table alignment html in 
+                |               |       suggestedPurchases method
+------------------------------------------------------------------------------------
+      1.04      |   7/12/2017    |  --> Modified extractItemName() method to pull
+                                        names from the products table instead of the
+                                        lists table in order to properly display the
+                                        newly added product descriptions
+ -----------------------------------------------------------------------------------
  */
 
 include("dbConnect.php");
@@ -37,12 +59,13 @@ Class ShoppingList {
             exit("Database Connection Error.");
         } //Kill method if no access to database
         $occuranceCountArray = array(); //declare empty array for top 10 items list
-        $popularItems = getPopularItems(); //retrieve master popular items list        
+        $popularItems = getPopularItems(); //retrieve master popular items list  
+        echo "<div><h2>Here are your top 10 most purchases items:</h2></div>";
         for ($i = 0; $i < 10; $i++) { //loop through master items array selecting only the top 10
             array_push($occuranceCountArray, $popularItems[$i][1]);
         }
         //Create output table structure
-        echo "<br /><br /><br />";
+        echo "<br />";
         echo "<table style=width:25% border='1'>"
         . "<tr><th>Popularity Rank</th>"
         . "<th>Item</th>"
@@ -57,12 +80,13 @@ Class ShoppingList {
     //Prints a list of purchases from the last five shopping trips
     public function recentShoppingTrips() {
         if (!$this->connected()) {
-            exit("Database Connection Error.");            
+            exit("Database Connection Error.");
         } //Kill method if no access to database
         $recentPurchases = getRecentTrips(); //retrieve a list of the recent purchases
+        echo "<p><h2>Purchase breakdown for the last five shopping trips:</h2></p>";
         foreach ($recentPurchases as $key => $value) {
             $date = new DateTime($value[1]);
-            echo "<p><h3>" . $date->format('l F j, Y') . "</h3></p>";
+            echo "<div><h3>" . $date->format('l F j, Y') . "</h3></div>";
             for ($i = 0; $i < count($value[0]); $i++) {
                 echo "<p>" . $value[0][$i][1] . "</p>";
             }
@@ -72,40 +96,41 @@ Class ShoppingList {
     /*  Method to test each item in array for eligibility to be added 
      *  and printed to the shopping list.  
      */
+
     public function generateList() {
         if (!$this->connected()) {
-            exit("Database Connection Error.");
+            exit("Database Connection Error. If you were attempting to submit a list, the attempt failed.");
         } //Kill method if no access to database
-        echo "<p><h2>Looks like you're due for these items:</h2></p>";
-        echo "<form action='suggestedPurchases.php' method='POST'>";
-        echo "<table style=width:50% border='1'><tr><th>Purchased?</th><th>Item ID</th><th>Item Description</th></tr>";
+        echo "<p><h2>Looks like you're due for these items:</h2></p>
+			<form action='suggestedPurchases.php' method='POST'>";
+        echo "<table style=width:50% border='1' align='center'><tr><th>Purchased?</th><th>Item ID</th><th>Item Description</th></tr>";
         foreach ($this->itemIDs as $itemID) {
-            $itemPurchaseDateArray = getItemDates($itemID);            
+            $itemPurchaseDateArray = getItemDates($itemID);
             if ($this->eligible($itemPurchaseDateArray)) {
                 echo "<tr><td align='center'><input type='checkbox' name='purchasedItem[]' value=$itemID></td><td>" . $itemID . "</td><td>" . $this->extractItemName($itemID) . "</td></tr>";
-            }            
+            }
         }
-        echo "</table>";
-        echo "<input type='submit' value='Record Purchases'>";
+        echo "</table><br /><div align='center'>";
+        echo "<input type='submit' value='Record Purchases'></div>";
         echo "</form>";
     }
 
-    /*Method to determine eligibility to be added to current shopping list
-    * 
-    *	Adds item to recommended purchase list if the number of days that
-    *	the item was last purchased is greater than the average purchase
-    *	interval minus the standard deviation of the purchase interval.
-    *	Subtracting a further five days helps to reduce shopping trip
-    *	intervals by looking further into the future.
-    */	
+    /* Method to determine eligibility to be added to current shopping list
+     * 
+     * 	Adds item to recommended purchase list if the number of days that
+     * 	the item was last purchased is greater than the average purchase
+     * 	interval minus the standard deviation of the purchase interval.
+     * 	Subtracting a further five days helps to reduce shopping trip
+     * 	intervals by looking further into the future.
+     */
+
     private function eligible($purchaseDateArray) {
         if (count($purchaseDateArray) < 5) {
             return TRUE;
         }
         $dayIntervalArray = $this->getDayIntervalArray($purchaseDateArray);
         $averagePurchaseIntervalValue = $this->averagePurchaseInterval($dayIntervalArray);
-        if (date_diff(date_create(date("Y-m-d")), date_create($purchaseDateArray[0]))->format('%a') 
-                >= $averagePurchaseIntervalValue - $this->stats_standard_deviation($dayIntervalArray) - 5) {
+        if (date_diff(date_create(date("Y-m-d")), date_create($purchaseDateArray[0]))->format('%a') >= $averagePurchaseIntervalValue - $this->stats_standard_deviation($dayIntervalArray) - 5) {
             return TRUE;
         }
     }
@@ -116,8 +141,7 @@ Class ShoppingList {
         for ($i = 1; $i < count($dateArray); $i++) {
             $previousElement = $i - 1;
             //Calculate dat interval between dates
-            $dayDifference = date_diff(date_create($dateArray[$previousElement]), 
-                    date_create($dateArray[$i]))->format('%a');
+            $dayDifference = date_diff(date_create($dateArray[$previousElement]), date_create($dateArray[$i]))->format('%a');
             //Append the day interval between each two dates to the return array
             array_push($dayIntervalArray, $dayDifference);
         }
@@ -129,18 +153,20 @@ Class ShoppingList {
         return array_sum($dayIntervalArray) / count($dayIntervalArray);
     }
 
+    //Helper method to retreve item nomenclature from master product list
     private function extractItemName($itemID) {
-        foreach($this->masterItemList as $key => $nestedArray) {
-            if($itemID == $nestedArray[0]) {
+        $tempArray = getAllItems();
+        foreach ($tempArray as $nestedArray) {
+            if ($itemID == $nestedArray[0]) {
                 return $nestedArray[1];
             }
         }
     }
-    
-    
+
     /* Method to compute and return the standard deviation of an input array
      * @source  http://php.net/manual/en/function.stats-standard-deviation.php
      */
+
     private function stats_standard_deviation(array $a, $sample = false) {
         $n = count($a);
         if ($n === 0) {
@@ -162,16 +188,15 @@ Class ShoppingList {
         }
         return sqrt($carry / $n);
     }
+
 }
 
 //Testing purposes --> for page suggestedPurchases.php
 //$obj = new ShoppingList();
 //$obj->generateList();
-
 //Testing purposes --> for page popularItems.php
 //$obj = new ShoppingList();
 //$obj->itemPopularityDensity();
-
 //Testing purposes --> for page recentTrips.php
 //$obj = new ShoppingList();
 //$obj->recentShoppingTrips();
