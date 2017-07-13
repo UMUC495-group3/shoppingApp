@@ -86,14 +86,16 @@ function getAllItems() { //gets all items from cmsc_products
     $returnArray = array(); //item of objects to be returned
     
     //select all items from the database to give user options
-    $optionsSQL = "SELECT ProductID FROM cmsc_products";
+    $optionsSQL = "SELECT ProductID, ProductName FROM cmsc_products";
     $optionsRESULT = mysqli_query($db, $optionsSQL) or die("Error retrieving items: " . mysqli_error($db));
     
     //go through each item from the selection
-    while ($item = mysqli_fetch_assoc($optionsRESULT)) {
+    //while ($item = mysqli_fetch_assoc($optionsRESULT)) {
+    while ($item = mysqli_fetch_array($optionsRESULT, MYSQLI_NUM)) {
         //echo $item['ProductID'] . "\n";
-        $tempArray = array();
-        array_push($tempArray, $item['ProductID']);
+        //$tempArray = array();
+        //array_push($tempArray, $item['ProductID']);
+        array_push($returnArray, $item);
     }
     return $returnArray;
 }
