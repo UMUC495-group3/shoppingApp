@@ -1,0 +1,14 @@
+@media (max-width: 775px) { .page #header { display: flex; justify-content: space-between; align-items: center; }
+  .page #header .welcome { display: flex; margin-left: 20px; }
+  .page #header .welcome a { text-decoration: none; font-family: "Arial"; font-size: 16px; color: #000; font-weight: 16px; }
+  .page #header #navigation { display: none; }
+  .page #header .mobile-nav-menu .mobile-menu-button { display: flex; width: 50px; height: 50px; right: 20px; justify-content: right; align-items: center; cursor: pointer; }
+  .page #header .mobile-nav-menu .mobile-menu-button span, .page #header .mobile-nav-menu .mobile-menu-button span:before, .page #header .mobile-nav-menu .mobile-menu-button span:after { content: ""; display: block; height: 2px; width: 100%; background-color: #333; position: relative; transition: all 0.3s ease-in-out; }
+  .page #header .mobile-nav-menu .mobile-menu-button span:before { top: 15px; }
+  .page #header .mobile-nav-menu .mobile-menu-button span:after { bottom: 17px; }
+  .page #header .mobile-nav-menu .mobile-menu-button:hover span { background-color: transparent; }
+  .page #header .mobile-nav-menu .mobile-menu-button:hover span:before, .page #header .mobile-nav-menu .mobile-menu-button:hover span:after { transform-origin: center; transform: rotate(45deg); top: 0; }
+  .page #header .mobile-nav-menu .mobile-menu-button:hover span:after { transform: rotate(-45deg); }
+  .page #header .mobile-nav-menu:hover .mobile-menu-content { display: block; } }
+
+/*# sourceMappingURL=reflexive_style.css.map */

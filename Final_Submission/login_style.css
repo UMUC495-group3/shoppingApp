@@ -1,0 +1,15 @@
+.page { height: 100%; }
+.page #wrapper { display: flex; justify-content: center; }
+.page #wrapper .loginBox { display: flex; flex-direction: column; background-color: white; border-style: solid; max-width: 350px; max-height: 350px; }
+.page #wrapper .loginBox #appName { display: flex; justify-content: center; font-family: "Arial"; font-size: 20px; padding: 25px 0; }
+.page #wrapper .loginBox form #userPassCont { display: flex; flex-direction: column; padding: 0 50px; max-width: 300px; max-height: 300px; }
+.page #wrapper .loginBox form #userPassCont #userCont { display: flex; margin-bottom: 5px; }
+.page #wrapper .loginBox form #userPassCont #userCont input { flex: 1; }
+.page #wrapper .loginBox form #userPassCont #passCont { display: flex; margin-top: 5px; }
+.page #wrapper .loginBox form #userPassCont #passCont input { flex: 1; }
+.page #wrapper .loginBox form #userPassCont #buttons { padding: 10px 5px; display: flex; margin-left: 40px; margin-bottom: 25px; }
+.page #wrapper .loginBox form #userPassCont #buttons .divider { width: 2px; }
+.page #wrapper .loginBox form #userPassCont #buttons button{ border: none; background-color: #1db71d; color: white; font-size: 16px; padding: 10px 16px; display: inline-block; }
+.page #wrapper .loginBox form #userPassCont #buttons button:hover { background-color: #15EC15; }
+
+/*# sourceMappingURL=login_style.css.map */

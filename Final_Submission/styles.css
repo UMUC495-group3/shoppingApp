@@ -1,0 +1,35 @@
+body { background-color: #8d7a7a; }
+
+.page { display: flex; flex-direction: column; }
+.page #header, .page #footer { background-color: #1db71d; }
+.page .suggestedPurchases, .page .recentTrips, .page .popularItems { display: flex; justify-content: center; }
+.page .suggestedPurchases .algoCont, .page .recentTrips .algoCont, .page .popularItems .algoCont { display: flex; flex-direction: column; margin: 5% 0; align-items: center; padding: 25px 0; }
+.page .suggestedPurchases .algoCont form table tr td, .page .recentTrips .algoCont form table tr td, .page .popularItems .algoCont form table tr td { width: 25%; padding: 10px 0; white-space: nowrap; }
+.page .suggestedPurchases .algoCont table tr td, .page .recentTrips .algoCont table tr td, .page .popularItems .algoCont table tr td { width: 25%; padding: 10px 0; white-space: nowrap; }
+.page #header { position: absolute; top: 0; right: 0; left: 0; }
+.page #header .welcome { display: none; }
+.page #header .mobile-nav-menu { position: relative; display: inline-block; }
+.page #header .mobile-nav-menu .mobile-menu-content { display: none; position: absolute; right: 0; background-color: #f9f9f9; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); z-index: 1; }
+.page #header .mobile-nav-menu .mobile-menu-content ul { list-style: none; }
+.page #header .mobile-nav-menu .mobile-menu-content ul li a { color: black; padding: 12px 16px; text-decoration: none; display: block; }
+.page #header .mobile-nav-menu .mobile-menu-content ul li a:hover { background-color: #f1f1f1; }
+.page #header #navigation { display: flex; flex-direction: row; justify-content: space-between; }
+.page #header #navigation ul { display: flex; list-style: none; }
+.page #header #navigation ul li { padding: 10px 0; }
+.page #header #navigation ul li a { text-decoration: none; color: #000; padding: 0 10px; }
+.page #header #navigation ul li:hover { background-color: #000; }
+.page #header #navigation ul li:hover a { color: #fff; }
+.page #content, .page .shoppingListOptions { position: relative; margin-top: 40px; }
+.page #content ul, .page .shoppingListOptions ul { list-style: none; }
+.page #content ul li, .page .shoppingListOptions ul li { padding: 5px 0; }
+.page #content ul li a, .page .shoppingListOptions ul li a { text-decoration: none; color: #000; padding: 0 5px; }
+.page #footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 10px 0; }
+.page #footer a { padding: 10px; text-decoration: none; color: #000; }
+.page #footer a:hover { background-color: #000; color: #fff; }
+.page #addItem, .page #removeItem { display: flex; justify-content: center; height: 100%; align-items: center; }
+.page #addItem form #addItemTable, .page #addItem form #removeItemTable, .page #removeItem form #addItemTable, .page #removeItem form #removeItemTable { display: flex; }
+.page #addItem form #addItemTable .add, .page #addItem form #removeItemTable .add, .page #removeItem form #addItemTable .add, .page #removeItem form #removeItemTable .add { flex: 1; }
+.page #addItem form #addItemTable .buttonOption, .page #addItem form #removeItemTable .buttonOption, .page #removeItem form #addItemTable .buttonOption, .page #removeItem form #removeItemTable .buttonOption { position: relative; padding: 10px 50px; }
+.page #addItem form #addItemTable .buttonOption:hover, .page #addItem form #removeItemTable .buttonOption:hover, .page #removeItem form #addItemTable .buttonOption:hover, .page #removeItem form #removeItemTable .buttonOption:hover { background-color: #1db71d; color: #fff; }
+
+/*# sourceMappingURL=styles.css.map */

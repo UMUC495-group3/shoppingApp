@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title></title>
+        <!--<link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" type="text/css" href="reflexive_style.css">-->
+        <link rel ="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div id="header">
+            <div class="welcome">
+                <a href="index.php">Welcome: <?php echo $_SESSION['username']; ?></a>
+            </div>
+            <div class="mobile-nav-menu" style="float:right">
+                <div class="mobile-menu-button"><span></span></div>
+                <div class="mobile-menu-content">
+                    <ul>
+                        <li><a href="index.php">Home</a></li>
+                        <li><a href="recentTrips.php">Recent Trips</a></li>
+                        <li><a href="suggestedPurchases.php">Suggested Purchases</a></li>
+                        <li><a href="popularItems.php">Popular Items</a></li>
+                        <li><a href="logout.php">Logout</a></li>
+                    </ul>
+                </div>
+              </div>
+            <div id="navigation">
+                <ul>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="recentTrips.php">Recent Trips</a></li>
+                    <li><a href="suggestedPurchases.php">Suggested Purchases</a></li>
+                    <li><a href="popularItems.php">Popular Items</a></li>
+                </ul>
+                <ul>
+                    <li><a href="index.php">Welcome: <?php echo $_SESSION['username']; ?></a></li>
+                    <li><a href="logout.php">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
