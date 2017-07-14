@@ -1,0 +1,131 @@
+/*
+*	Author: Jesse Cruse
+*	Date: 14 June 2017
+*	Program: Predictive Shopping App
+*	File Desscription: Shopping app algorithm pseudocode
+*/
+
+Class ShoppingList
+
+	//Declare class variables
+	Declare Private Numeric	currentShoppingList //Inital empty array of items to buy
+	
+	//Constructor
+	Constructor Method makeShoppingList()
+		int[] itemIDs = getAllItemIDs() //get item ID array
+		currentShoppingList = array() //Initialize as empty
+	End Method
+	
+	//Method to test for successful database connectivity
+	Method Boolean testDatabase()
+		if (connection successful)
+			return true
+		else
+			return false
+	End Method
+	
+	//Returns the top ten purchased items
+	Method String[] itemPopularityDensity()
+		int[] itemIDs = getAllItemIDs() //get item ID array
+		String[] occuranceCountArray = array() //array of items
+		foreach(itemsIDs as item)
+			int occuranceCount = //MySQL statement to count occurances of itemIDs
+			itemIDs[item] = occuranceCount //Add occurance count to array
+		sort(occuranceCountArray) //sort array from highest to lowest
+		int[] popularItemArray = array() //create empty output array
+		return array_slice(occuranceCountArray, 0, 10) //return top 10 purchased items			
+	End Method
+	
+	//Method to return a list of recent purchases (within the last two weeks)
+	Method String[] recentPurchases()
+		int[] itemIDs = getAllItemIDs() //get item ID array
+		String[] recentPurchases = array() //initialize enmpty output array
+		foreach(itemIDs as item)
+			if (item purchased within last 14 days) //MySQL select statement
+				array_push(recentPurchases, item) // add item to array
+		return recentPurchases
+	End Method
+	
+	//Method to test each item in array for eligibility to be added to shopping list
+	Method Numeric generateList(itemIDs)
+		foreach(itemIDs as item)
+			//Construct array of previous purchase dates for item via MySQL
+			String[] itemPurchaseDateArray = getSortedPurchaseDateArray(item) 
+			if (eligible(itemPurchaseDateArray))
+				//If item is eligible, add to current shopping list
+				array_push(currentShoppingList, item)
+		return currentShoppingList
+	End Method
+	
+	//Method to determine eligibility to be added to current shopping list
+	Method Boolean eligible(Numeric[] itemPurchaseDateArray) 
+		if(count(dayIntervals) < 5)
+			return true
+		if (daySinceLastPurchase(itemPurchaseDateArray) >= 
+			averagePurchaseInterval(itemPurchaseDateArray) - 
+				stats_standard_deviation(getDayIntervalArray(itemPurchaseDateArray)) - 5)
+					/*
+					*	Add item to recommended purchase list if the number of days that
+					*	the item was last purchased is greater than the average purchase
+					*	interval minus the standard deviation of the purchase interval.
+					*	Subtracting a further five days helps to reduce shopping trip
+					*	intervals by looking further into the future.
+					*/	
+				return true
+		return false
+	End Method
+	
+	//Helper method to calculate number of days since last purchase
+	Private Method Numeric daySinceLastPurchase(String[] itemPurchaseDateArray)
+		return date_diff(today, itemPurchaseDateArray[0])
+	Method
+	
+	//Helper method to get average purchase interval
+	Private Method Numeric averagePurchaseInterval()
+		return averagePurchaseInterval(dayIntervals) / count(dayIntervals);
+	End Method
+
+/* 	//Helper method to retrieve a list of dates for current item, sorted from
+	//most to least recently
+	Private Method String[] getSortedPurchaseDateArray(itemID)
+		//Generate string of item purchase dates from database via MySQL
+		string[] getitemPurchaseDateArray = sort(getPurchaseDateArray(itemID));
+	End Method */
+		
+	//Helper method to generate an array of differences between purchase dates
+	Private Method Numeric getDayIntervalArray(int[] dateArray)		
+		dayIntervalArray = array(); //Number of days between each purchase date
+	
+		for(i = 1; i < count(dateArray); i++) {
+			int prevElement = i - 1;
+			//Calculate day interval between dates
+			int dayDifference = date_diff(dateArray[prevElement], dateArray[i]);
+			//Append the number of days between each date to the dayIntervalArray array
+			array_push(dayIntervalArray, dayDifference);
+		}
+		return dayIntervalArray;
+	End Method	
+	
+	//Helper method to determine the average purchase interval for an item
+	Private Method Numeric averagePurchaseInterval(int[] dateArray)
+		int sum = 0;
+		foreach(dateArray as value) {
+			sum += value
+		}
+		return sum
+	End Method
+	
+	//Helper method to build array of dates for each item in the users database
+	Private Method String[] getPurchaseDateArray(int itemID)
+		outputArray = array();
+		foreach(line in database) {
+			if(current line itemID == itemID)
+				array_push(outputArray, purchaseDate)
+		return outputArray
+	End Method
+	
+	//Helper Method to get a numeric array of all itemIDs in user database
+	Method Numeric[] getAllItemIDs()
+		return array() //MySQL statement getting all item IDs
+	End Method
+End Class
